@@ -34,7 +34,16 @@ class Snake {
 }
 
 class Apple {
+    constructor(){
+        this.place = {
+            x: 0,
+            y: 0
+        }
+    }
 
+    randomSpawn(snakeXY, fieldXY) {
+
+    }
 }
 
 /**
@@ -62,6 +71,14 @@ function createEnv() {
 
 function move() {
     snakeBody.forEach(item => item.classList.remove('snake-part'));
+    if (+snakeCoord[0].y + UDside < 0 || +snakeCoord[0].y + UDside > 23) {
+        snakeCoord[0].y == 0 ? snakeCoord[0].y = 23 - UDside : snakeCoord[0].y = 0 - UDside;
+    }
+    
+    if (+snakeCoord[0].x + LRside < 0 || +snakeCoord[0].x + LRside > 19) {
+        snakeCoord[0].x == 0 ? snakeCoord[0].x = 19 - LRside : snakeCoord[0].x = 0 - LRside;
+    }
+
     snakeBody.unshift(document.querySelector(`[posx="${+(snakeCoord[0].x)+LRside}"][posy="${+snakeCoord[0].y + UDside}"]`));
     snakeCoord.unshift({ x: snakeBody[0].getAttribute('posx'), y: snakeBody[0].getAttribute('posy') })
     if (snakeBody.length > playerSnake.length) {
@@ -102,4 +119,4 @@ document.addEventListener('keydown', function(event){
         UDside = 1;
     }
 })
-// let loopGame = setInterval(loop, 150);
+let loopGame = setInterval(loop, 150);
