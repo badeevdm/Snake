@@ -1,0 +1,26 @@
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-field {
+    width: 500px;
+    height: 600px;
+    outline: 1px solid #323232;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ceil {
+    width: 25px;
+    height: 25px;
+    outline: 1px solid #cccccc;
+}
+
+
+.snake-part {
+    background-color: #9CEC5B;
+    outline: 1px solid white;
+}
