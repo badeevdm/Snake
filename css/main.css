@@ -29,6 +29,7 @@ body {
 .apple {
     background-color: #ff0022;
     position: relative;
+    border-radius: 100px;
 }
 
 .apple::after {

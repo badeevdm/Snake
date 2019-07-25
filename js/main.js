@@ -2,13 +2,17 @@
 * global variables
 */
 
-const colW = 20, colH = 24,
+const colW = 20, 
+colH = 24,
 snakeGame = document.getElementById('snackeGame'),
-startX = 10, startY = 10; 
-let snakeBody = [], snakeCoord = [],
-LRside = 0, UDside = -1, flag = false;
+startX = 10, 
+startY = 10; 
 
-
+let snakeBody = [], 
+snakeCoord = [],
+LRside = 0, 
+UDside = -1, 
+flag = false;
 
 /**
 * Classes 
@@ -49,6 +53,7 @@ class Apple {
         this.place.x = randX;
         this.place.y = randY;
         this.active = true;
+        document.querySelector(`[posx="${this.place.x}"][posy="${this.place.y}"]`).classList.add('apple');
     }
 }
 
@@ -74,7 +79,8 @@ function createEnv() {
         snakeCoord[i] = {x: playerSnake.body[i].x+startX, y: playerSnake.body[i].y+startY};
     }
     snakeBody.forEach(item => item.classList.add('snake-part'));
-    snakeBody[snakeBody.length-1].classList.add('tail')
+    snakeBody[snakeBody.length-1].classList.add('tail');
+    apples.randomSpawn(snakeCoord, colW, colH);
 }
 
 function move() {
@@ -134,7 +140,6 @@ function loop() {
     move();
     if (!apples.active) {
         apples.randomSpawn(snakeCoord, colW, colH);
-        document.querySelector(`[posx="${apples.place.x}"][posy="${apples.place.y}"]`).classList.add('apple');
     }
     if (snakeCoord[0].x == apples.place.x && snakeCoord[0].y == apples.place.y) {
         //eating apple
