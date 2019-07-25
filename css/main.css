@@ -16,15 +16,57 @@ body {
 .ceil {
     width: 25px;
     height: 25px;
-    outline: 1px solid #cccccc;
+    /* outline: 1px solid #cccccc; */
 }
 
 
 .snake-part {
     background-color: #9CEC5B;
     outline: 1px solid white;
+    position: relative;
 }
 
 .apple {
     background-color: #ff0022;
+    position: relative;
+}
+
+.apple::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 10px;
+    height: 12px;
+    background: green;
+}
+
+.cut-part {
+    background-color: #ff0022;
+}
+
+.tail:before {
+    content: "";
+    position: absolute;
+    border: 12.5px solid transparent;
+    border-right: 0 solid white;
+    border-bottom: 12.5px solid white;
+    right: 0;
+}
+
+.tail:after {
+    content: "";
+    position: absolute;
+    border: 12.5px solid transparent;
+    border-left: 0 solid white;
+    border-bottom: 12.5px solid white;
+}
+
+.tail.tailYD {
+    transform: rotate(180deg);
+}
+.tail.tailXR {
+    transform: rotate(270deg);
+}
+.tail.tailXL {
+    transform: rotate(90deg);
 }

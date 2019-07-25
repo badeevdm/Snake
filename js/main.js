@@ -26,11 +26,6 @@ class Snake {
         ]
         this.length = 5
     }
-    
-    moveUp     () {}
-    moveBottom () {}
-    moveLeft   () {}
-    moveRight  () {}
 }
 
 class Apple {
@@ -79,9 +74,26 @@ function createEnv() {
         snakeCoord[i] = {x: playerSnake.body[i].x+startX, y: playerSnake.body[i].y+startY};
     }
     snakeBody.forEach(item => item.classList.add('snake-part'));
+    snakeBody[snakeBody.length-1].classList.add('tail')
 }
 
 function move() {
+    snakeBody[snakeBody.length-1].classList.remove('tail')
+
+    if(+snakeCoord[snakeCoord.length-2].x+1 == snakeCoord[snakeCoord.length-1].x) {
+        snakeBody[snakeBody.length-1].classList.remove('tailXR')
+    }
+    if(+snakeCoord[snakeCoord.length-2].x-1 == snakeCoord[snakeCoord.length-1].x) {
+        snakeBody[snakeBody.length-1].classList.remove('tailXL')
+    }
+    if(+snakeCoord[snakeCoord.length-2].y+1 == snakeCoord[snakeCoord.length-1].y) {
+        snakeBody[snakeBody.length-1].classList.remove('tailYU')
+    }
+    if(+snakeCoord[snakeCoord.length-2].y-1 == snakeCoord[snakeCoord.length-1].y) {
+        snakeBody[snakeBody.length-1].classList.remove('tailYD')
+    }
+
+    document.querySelectorAll('.cut-part').forEach(item => item.classList.remove('cut-part'))
     snakeBody.forEach(item => item.classList.remove('snake-part'));
     if (+snakeCoord[0].y + UDside < 0 || +snakeCoord[0].y + UDside > 23) {
         snakeCoord[0].y == 0 ? snakeCoord[0].y = 23 - UDside : snakeCoord[0].y = 0 - UDside;
@@ -97,7 +109,22 @@ function move() {
         snakeBody.pop();
         snakeCoord.pop();
     }
+    snakeBody[snakeBody.length-1].classList.add('tail')
     snakeBody.forEach(item => item.classList.add('snake-part'));
+
+    if(+snakeCoord[snakeCoord.length-2].x+1 == snakeCoord[snakeCoord.length-1].x) {
+        snakeBody[snakeBody.length-1].classList.add('tailXR')
+    }
+    if(+snakeCoord[snakeCoord.length-2].x-1 == snakeCoord[snakeCoord.length-1].x) {
+        snakeBody[snakeBody.length-1].classList.add('tailXL')
+    }
+    if(+snakeCoord[snakeCoord.length-2].y+1 == snakeCoord[snakeCoord.length-1].y) {
+        snakeBody[snakeBody.length-1].classList.add('tailYU')
+    }
+    if(+snakeCoord[snakeCoord.length-2].y-1 == snakeCoord[snakeCoord.length-1].y) {
+        snakeBody[snakeBody.length-1].classList.add('tailYD')
+    }
+
     flag = true;
 }
 
@@ -109,10 +136,24 @@ function loop() {
         document.querySelector(`[posx="${apples.place.x}"][posy="${apples.place.y}"]`).classList.add('apple');
     }
     if (snakeCoord[0].x == apples.place.x && snakeCoord[0].y == apples.place.y) {
+        //eating apple
         document.querySelector(`[posx="${apples.place.x}"][posy="${apples.place.y}"]`).classList.remove('apple');
         apples.active = false;
+        //add part to snake
+        snakeBody.push(document.querySelector(`[posx="${+(snakeCoord[snakeCoord.length-1].x)+LRside}"][posy="${+snakeCoord[snakeCoord.length-1].y + UDside}"]`));
+        snakeCoord.push({ x: snakeBody[snakeBody.length-1].getAttribute('posx'), y: snakeBody[snakeBody.length-1].getAttribute('posy') })
     }
-
+    for (let i=1; i<snakeCoord.length;i++) {
+        if (snakeCoord[0].x == snakeCoord[i].x && snakeCoord[0].y == snakeCoord[i].y) {
+            let cutPart = snakeBody.splice(i, snakeBody.length)
+            snakeCoord.splice(i, snakeCoord.length)
+            cutPart.forEach(cut => {
+                cut.classList.add('cut-part');
+                cut.classList.remove('snake-part')
+            }
+        )
+    }
+}
 }
 
 createEnv();
@@ -139,4 +180,4 @@ document.addEventListener('keydown', function(event){
         UDside = 1;
     }
 })
-let loopGame = setInterval(loop, 150);
+let loopGame = setInterval(loop, 300);
