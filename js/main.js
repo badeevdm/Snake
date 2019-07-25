@@ -38,8 +38,8 @@ class Apple {
     }
 
     randomSpawn(snake, fieldX, fieldY) {
-        let randX = Math.floor(0 + Math.random()*(fieldX + 1 - 0));
-        let randY = Math.floor(0 + Math.random()*(fieldY + 1 - 0));
+        let randX = Math.floor(0 + Math.random()*(fieldX - 0));
+        let randY = Math.floor(0 + Math.random()*(fieldY - 0));
         snake.forEach(item => {
             if (randX == item.x && randY == item.y) {
                 randY++;
@@ -80,6 +80,7 @@ function createEnv() {
 function move() {
     snakeBody[snakeBody.length-1].classList.remove('tail')
 
+    //bad decision
     if(+snakeCoord[snakeCoord.length-2].x+1 == snakeCoord[snakeCoord.length-1].x) {
         snakeBody[snakeBody.length-1].classList.remove('tailXR')
     }
@@ -111,7 +112,7 @@ function move() {
     }
     snakeBody[snakeBody.length-1].classList.add('tail')
     snakeBody.forEach(item => item.classList.add('snake-part'));
-
+    //bad decision
     if(+snakeCoord[snakeCoord.length-2].x+1 == snakeCoord[snakeCoord.length-1].x) {
         snakeBody[snakeBody.length-1].classList.add('tailXR')
     }
@@ -150,6 +151,12 @@ function loop() {
             cutPart.forEach(cut => {
                 cut.classList.add('cut-part');
                 cut.classList.remove('snake-part')
+                cut.classList.remove('tail')
+                //bad decision
+                cut.classList.contains('tailXR') ?  cut.classList.remove('tailXR'): '';
+                cut.classList.contains('tailXL') ?  cut.classList.remove('tailXL'): '';
+                cut.classList.contains('tailYD') ?  cut.classList.remove('tailYD'): '';
+                cut.classList.contains('tailYU') ?  cut.classList.remove('tailYU'): '';
             }
         )
     }
@@ -180,4 +187,4 @@ document.addEventListener('keydown', function(event){
         UDside = 1;
     }
 })
-let loopGame = setInterval(loop, 300);
+let loopGame = setInterval(loop, 100);
