@@ -39,10 +39,21 @@ class Apple {
             x: 0,
             y: 0
         }
+        this.active = false
     }
 
-    randomSpawn(snakeXY, fieldXY) {
-
+    randomSpawn(snake, fieldX, fieldY) {
+        let randX = Math.floor(0 + Math.random()*(fieldX + 1 - 0));
+        let randY = Math.floor(0 + Math.random()*(fieldY + 1 - 0));
+        snake.forEach(item => {
+            if (randX == item.x && randY == item.y) {
+                randY++;
+                randX--;
+            }
+        })
+        this.place.x = randX;
+        this.place.y = randY;
+        this.active = true;
     }
 }
 
@@ -60,6 +71,7 @@ for (let i=0; i<colH; i++) {
 }
 
 let playerSnake = new Snake();
+let apples = new Apple();
 
 function createEnv() {
     for (let i=0; i<playerSnake.body.length;i++) {
@@ -92,6 +104,14 @@ function move() {
 function loop() {
     
     move();
+    if (!apples.active) {
+        apples.randomSpawn(snakeCoord, colW, colH);
+        document.querySelector(`[posx="${apples.place.x}"][posy="${apples.place.y}"]`).classList.add('apple');
+    }
+    if (snakeCoord[0].x == apples.place.x && snakeCoord[0].y == apples.place.y) {
+        document.querySelector(`[posx="${apples.place.x}"][posy="${apples.place.y}"]`).classList.remove('apple');
+        apples.active = false;
+    }
 
 }
 
